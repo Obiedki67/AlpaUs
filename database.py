@@ -18,6 +18,22 @@ def init_db():
     conn.commit()
     conn.close()
 
+def get_all_tester_tg_ids():
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    c.execute("SELECT tg_id FROM testers")
+    result = [row[0] for row in c.fetchall()]
+    conn.close()
+    return result
+
+def get_tester_count_by_android_version():
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    c.execute("SELECT android_version, COUNT(*) FROM testers GROUP BY android_version")
+    result = c.fetchall()
+    conn.close()
+    return result
+
 def user_exists_by_tg(tg_id):
     conn = sqlite3.connect('users.db')
     c = conn.cursor()
